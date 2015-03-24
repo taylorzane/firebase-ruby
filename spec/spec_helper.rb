@@ -8,5 +8,6 @@ require 'firebase'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
-
+  # Specs should be using the new :expect format.
+  config.raise_errors_for_deprecations!
 end
