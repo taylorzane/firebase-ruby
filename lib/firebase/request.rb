@@ -4,8 +4,9 @@ require 'json'
 module Firebase
   class Request
     def initialize(base_uri)
-      @client = HTTPClient.new(base_url: base_uri)
-      @client.default_header['Content-Type'] = 'application/json'
+      # @client = HTTPClient.new(base_url: base_uri)
+      # @client.default_header['Content-Type'] = 'application/json'
+      @client = JSONClient.new(base_url: base_uri)
       @subdomain = base_uri.scan(/(?:https:\/\/)(?:([^.]+)\.)/)[0][0]
     end
 
@@ -14,11 +15,11 @@ module Firebase
     end
 
     def put(path, value, query_options)
-      process(:put, path, value.to_json, query_options)
+      process(:put, path, value, query_options)
     end
 
     def post(path, value, query_options)
-      process(:post, path, value.to_json, query_options)
+      process(:post, path, value, query_options)
     end
 
     def delete(path, query_options)
@@ -44,10 +45,12 @@ module Firebase
       Firebase::Response.new(response)
     end
 
+    # rubocop:disable Lint/UnreachableCode, Lint/UnusedMethodArgument
     def reset_password(email)
       fail NotImplementedError
       Firebase::Response.new(response)
     end
+    # rubocop:enable Lint/UnreachableCode, Lint/UnusedMethodArgument
 
     def remove_user(email, password)
       response = @client.request(:get, "https://auth.firebase.com/v2/#{@subdomain}/users/#{email}", email: email, password: password, _method: 'DELETE')
@@ -71,15 +74,19 @@ module Firebase
       Firebase::Response.new(response)
     end
 
+    # rubocop:disable Lint/UnreachableCode, Lint/UnusedMethodArgument
     def auth_with_custom_token(token)
       fail NotImplementedError
       Firebase::Response.new(response)
     end
+    # rubocop:enable Lint/UnreachableCode, Lint/UnusedMethodArgument
 
+    # rubocop:disable Lint/UnreachableCode
     def auth_anonymously
       fail NotImplementedError
       Firebase::Response.new(response)
     end
+    # rubocop:enable Lint/UnreachableCode
 
     private
 
