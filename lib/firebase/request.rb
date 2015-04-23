@@ -4,8 +4,6 @@ require 'json'
 module Firebase
   class Request
     def initialize(base_uri)
-      # @client = HTTPClient.new(base_url: base_uri)
-      # @client.default_header['Content-Type'] = 'application/json'
       @client = JSONClient.new(base_url: base_uri)
       @subdomain = base_uri.scan(/(?:https:\/\/)(?:([^.]+)\.)/)[0][0]
     end
