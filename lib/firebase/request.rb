@@ -26,7 +26,7 @@ module Firebase
     end
 
     def patch(path, value, query_options)
-      process(:patch, path, value.to_json, query_options)
+      process(:patch, path, value, query_options)
     end
 
     def create_user(email, password)
@@ -65,7 +65,7 @@ module Firebase
       response = @client.request(:get, "https://auth.firebase.com/v2/#{@subdomain}/auth/password", email: email, password: password)
       Firebase::Response.new(response)
     end
-    
+
     def auth_with_oauth(provider, request_id = nil, redirect = nil)
       response = @client.request(:get, "https://auth.firebase.com/v2/#{@subdomain}/auth/#{provider}", requestId: request_id, redirectTo: redirect)
       Firebase::Response.new(response)
